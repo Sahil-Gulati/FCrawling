@@ -1,0 +1,20 @@
+{
+    "name": "sahil-gulati/fcrawling",
+    "version": "1.0.0",
+    "description": "Multi curl library!",
+    "authors": [
+        {
+            "name": "Sahil Gulati",
+            "email": "sahil.nona@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+	"php":">=5.3"
+    },
+    "autoload":{
+       "psr-0":{
+         "FCrawling":"src/"
+       }
+    }
+}
