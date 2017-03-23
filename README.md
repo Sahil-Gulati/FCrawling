@@ -25,8 +25,13 @@ require_once 'vendor/autoload.php';
 use FCrawling\FCrawling;
 use FCrawling\FCrawlingRequest;
 try {
-
-    $fcrawlingObj= new FCrawling("test");
+    /**
+     * Callback function type
+     * (String) `callback_function` global function
+     * (Array) array => 0 (Object) $classObject array => 1 (String) function_name(public) 
+     * (Array) array => 0 (String) class_name array => 1 (String) function_name(public static) 
+     **/
+    $fcrawlingObj= new FCrawling("callback_function");
     /**
      * Execution type can 'parallel' or 'serial'
      * Defaults to 'parallel'
@@ -81,7 +86,7 @@ catch(FCrawlingException $fex)
 }
 
 
-function test($response,$responseNo,$info,$groupNo)
+function callback_function($response,$responseNo,$info,$groupNo)
 {
     print_r(func_get_args());
 }
