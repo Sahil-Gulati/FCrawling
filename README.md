@@ -1,7 +1,7 @@
 # FCrawling
 FCrawling is a Fast Crawling Multi CURL Library. This library contains some enhanced parameters from execution's efficiency point of view. We have heard most of the times, people taking about sending HTTP request without waiting for response, sending multiple requests parallely at once ,limiting requests or grouping of requests then FCrawling comes into play. Have a look on example.
 
-##Installation
+## Installation
 `composer require sahil-gulati/fcrawling`
 
 **OR**
@@ -18,7 +18,7 @@ Create composer.json in your project directory
 
 `composer install`
 
-##Usage
+## Usage
 ```php
 <?php
 require_once 'vendor/autoload.php';
