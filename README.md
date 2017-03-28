@@ -6,7 +6,7 @@ FCrawling is a Fast Crawling Multi CURL Library. This library contains some enha
 
 **OR**
 
-Create composer.json in your project directory
+Create `composer.json` in your project directory
 
 ```javascript
 {
