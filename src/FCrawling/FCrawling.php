@@ -97,7 +97,7 @@ class FCrawling
             }
             else
             {
-                throw new FCrawlingException();
+                throw new FCrawlingException("IET");
             }
         }
     }
@@ -332,6 +332,7 @@ class FCrawling
                 if(!empty($response))
                 {
                     curl_multi_remove_handle($this->multiRequest, $curlObject->curlRequest);
+                    $curlObject->curlInfo=  curl_getinfo($curlObject->curlRequest);
                     unset($curlObject->curlRequest);
                     $this->callback($response,$index,$curlObject);
                     unset($this->requests[$index]);
@@ -365,8 +366,12 @@ class FCrawling
                         if($response)
                         {
                             curl_multi_remove_handle($multi, $requestObj['curlRequest']);
+                            $fCrawlingRequestObj= new \FCrawling\FCrawlingRequest($this->requestsGroups[$groupNo][$requestNo]["url"]);
+                            $fCrawlingRequestObj->requestParameters=$this->requestsGroups[$groupNo][$requestNo]["requestParameters"];
+                            $fCrawlingRequestObj->curlInfo=curl_getinfo($requestObj['curlRequest']);
+                            unset($fCrawlingRequestObj->curlRequest);
                             unset($this->requestsGroups[$groupNo][$requestNo]['curlRequest']);
-                            $this->callback($response, $requestNo, $this->requestsGroups[$groupNo][$requestNo], $groupNo);
+                            $this->callback($response, $requestNo,$fCrawlingRequestObj, $groupNo);
                         }
                     }
                 }
@@ -458,6 +463,11 @@ class FCrawlingRequest
     public $requestParameters=array();
 
     /**
+     *
+     * @var Array This will hold the complete request info.
+     */
+    public $curlInfo=array();
+    /**
      * 
      * @param String $url This variable will contain URL on which you want request
      */
@@ -467,7 +477,10 @@ class FCrawlingRequest
         if(!empty($url))
         {
             $this->url=$url;
-            $this->requestParameters[]=  self::_get_request_parameters($url);
+            $this->requestParameters["query_parameters"]=  self::_get_request_parameters($url);
+            $this->requestParameters[CURLOPT_URL]=  $url;
+            $this->requestParameters[CURLOPT_RETURNTRANSFER]=  true;
+            $this->requestParameters[CURLOPT_FORBID_REUSE]=  true;
             curl_setopt($this->curlRequest, CURLOPT_URL, $url);
             curl_setopt($this->curlRequest, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($this->curlRequest, CURLOPT_FORBID_REUSE, true);
@@ -484,7 +497,7 @@ class FCrawlingRequest
         {
             foreach($options as $option => $value)
             {
-                $this->requestParameters[]=($option==CURLOPT_POSTFIELDS) ? $value : false;
+                $this->requestParameters[$option]=$value;
                 curl_setopt($this->curlRequest, $option, $value);
             }
         }
@@ -535,6 +548,10 @@ class FCrawlingException extends \Exception
         elseif($code=='IWS')
         {
             $message="'Window size must be an integer not greater than lakhs!";
+        }
+        elseif($code=='IET')
+        {
+            $message="Invalid execution type!";
         }
         parent::__construct($message);
     }
