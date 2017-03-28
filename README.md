@@ -11,7 +11,7 @@ Create composer.json in your project directory
 ```javascript
 {
      "require":{
-        "sahil-gulati/fcrawling":"1.0.0"
+        "sahil-gulati/fcrawling":"^1.0.0"
      }
 }
 ```
