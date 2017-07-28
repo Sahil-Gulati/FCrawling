@@ -78,7 +78,7 @@ try {
     ));
     $fcrawlingObj->setRequest($fcrawlingRequestObj);
 
-    $fcrawlingObj->execute("\FCrawling\test");
+    $fcrawlingObj->execute();
 }
 catch(FCrawlingException $fex)
 {
